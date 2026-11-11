@@ -1,0 +1,7 @@
+roblox-up-and-coming-forecast-01 entry
+Copyright 2026 Quixyl-eng
+
+This product starts from the official make.fun kit starter (starter/main.ts, MIT)
+and credits the public chart archive Kenny-Dhub/roblox-snapshots
+(https://github.com/Kenny-Dhub/roblox-snapshots), licensed under MIT.
+The forecaster itself is original Python (standard library only).
