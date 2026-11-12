@@ -149,45 +149,13 @@ def game_features(times: list[float], ranks: list[dict[int, int]]) -> dict[int, 
 
 
 def visit_shift(snaps: list[dict], times: list[float]) -> dict[int, float]:
-    """Ranks to subtract when recent visit growth beats the chart's median.
+    """Visit growth is not used.
 
-    The sort is user growth. The rehearsal file has no visit counts, so this
-    only moves the final forecast, where the house recorder stores details.
+    On the public charts after 8 November, shifting a rank by how fast visits
+    were growing made the later chart less likely at every strength tried.
+    The rehearsal file has no visit counts either, so this returns nothing.
     """
-    series: dict[int, list[tuple[float, float]]] = defaultdict(list)
-    for snap, moment in zip(snaps, times):
-        for universe_id, info in detail_map(snap).items():
-            visits = info.get("visits")
-            if isinstance(visits, (int, float)) and visits > 0:
-                series[universe_id].append((moment, float(visits)))
-    rates: dict[int, float] = {}
-    for universe_id, points in series.items():
-        if len(points) < 2:
-            continue
-        end_t, end_v = points[-1]
-        previous = None
-        for start_t, start_v in reversed(points[:-1]):
-            hours = (end_t - start_t) / 3600.0
-            if 1 <= hours <= 36 and start_v > 0:
-                previous = (hours, start_v)
-                break
-        if previous is None:
-            continue
-        hours, start_v = previous
-        rates[universe_id] = (math.log(end_v) - math.log(start_v)) / hours
-    if not rates:
-        return {}
-    ordered = sorted(rates.values())
-    median = ordered[len(ordered) // 2]
-    shift: dict[int, float] = {}
-    for universe_id, rate in rates.items():
-        delta = -90.0 * (rate - median)
-        if delta > 5:
-            delta = 5
-        elif delta < -5:
-            delta = -5
-        shift[universe_id] = delta
-    return shift
+    return {}
 
 
 def lookup_rank(rank: int, climbed: int, tenure: int, hour: float, growth: float) -> int:

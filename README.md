@@ -14,9 +14,9 @@ The scored forecast is one distribution, judged on every hour of the window.
   rank-to-place table from the history, six hours a bin, and averages it over
   the window. A game that has just climbed is looked up a few places higher. A
   leader that has sat still is looked up a few places lower after the first
-  day. If the recorder stored visit counts, faster visit growth than the
-  chart's median moves the lookup the same way. What the table does not name
-  is left for games that are not in the history yet.
+  day. Visit counts are ignored: on the public charts after 8 November, moving
+  a rank by visit growth made the later chart less likely. What the table does
+  not name is left for games that are not in the history yet.
 
 No network; standard library only; deterministic JSON.
 
