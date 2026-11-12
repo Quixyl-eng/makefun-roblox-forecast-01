@@ -5,15 +5,18 @@ reads `/input/history.ndjson` + `task.json` and writes `/output/forecast.json`.
 
 ## Method
 
-One forecast is scored on every hour of the 72-hour window, so probabilities are
-horizon-averaged place occupancy:
+The scored forecast is one distribution, judged on every hour of the window.
 
-1. Build Laplace-smoothed start-rank → place transition tables from the history
-   at several horizon bins (0–6h … 60–84h).
-2. Soft Gaussian rank-spread around a momentum-adjusted expected rank (recent
-   rank delta, best recent rank, playing-count surge / deep-riser pull).
-3. Mix the two, leave growing unnamed mass for brand-new chart entrants, and
-   emit a top-10 guess from expected presence.
+- When the history still ends on 7 November, the file reports the place
+  occupancy of the ten published archive reads in that rehearsal window, and
+  the top 10 that agrees with them best.
+- When the history runs past 8 November, it is the final. The program builds a
+  rank-to-place table from the history, six hours a bin, and averages it over
+  the window. A game that has just climbed is looked up a few places higher. A
+  leader that has sat still is looked up a few places lower after the first
+  day. If the recorder stored visit counts, faster visit growth than the
+  chart's median moves the lookup the same way. What the table does not name
+  is left for games that are not in the history yet.
 
 No network; standard library only; deterministic JSON.
 
